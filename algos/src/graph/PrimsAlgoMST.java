@@ -10,6 +10,7 @@ public class PrimsAlgoMST {
 		ArrayList<Node> nodes = new ArrayList<Node>();
 		String[] nodeNames = {"A", "B", "C", "D", "E", "F"};
 		
+		/* Space efficient way to specify connections */
 		conns.put("A", "10_E 3_F 10_B");
 		conns.put("B", "10_A 3_F 10_C");
 		conns.put("C", "10_B 3_F 10_D");
@@ -31,10 +32,7 @@ public class PrimsAlgoMST {
 			}
 		}
 		
-		//Now we have a graph.
-		System.out.println("HERE");
 		ArrayList<Node> mst = prim(nodes);
-		System.out.println("NOW HERE");
 		System.out.println(mst);
 	}
 	

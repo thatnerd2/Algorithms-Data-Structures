@@ -34,12 +34,10 @@ public class BoxStacking {
 		Arrays.fill(states, allBoxes[0].height);
 		for (int i = 0; i < states.length; i++) {
 			for (int j = 0; j < i; j++) {
-				//System.out.println("Allboxes[i] " + allBoxes[i]);
-				//System.out.println("Allboxes[j]: " + allBoxes[j]);
 				if (allBoxes[i].width > allBoxes[j].width &&
 					allBoxes[i].depth > allBoxes[j].depth &&
-					states[i] < states[j] + allBoxes[i].height) {
-					
+					states[i] < states[j] + allBoxes[i].height) 
+				{
 					states[i] = states[j] + allBoxes[i].height;
 				}
 			}
