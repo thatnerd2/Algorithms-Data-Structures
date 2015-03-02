@@ -1,6 +1,6 @@
 package math;
 
-public class PolygonArea {
+public class PolygonAreaUsingVertices {
 	public static void main (String [] args) {
 		int[][] pts = {{0, 0}, {2, 0}, {2, 2}, {0, 2}};
 	

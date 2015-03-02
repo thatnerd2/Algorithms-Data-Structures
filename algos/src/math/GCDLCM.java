@@ -1,6 +1,6 @@
 package math;
 
-public class MathUtil {
+public class GCDLCM {
 	
 	/*--------------- GCD Methods -------------*/
 	private static int gcd(int a, int b) {
@@ -20,7 +20,6 @@ public class MathUtil {
 	    return result;
 	}
 	
-	/*------------END GCD Methods -------------*/
 	
 	/*--------------- LCM Methods -------------*/
 	public static int lcm(int a, int b)
@@ -36,7 +35,6 @@ public class MathUtil {
 	    
 	    return result;
 	}
-	/*------------END LCM Methods -------------*/
 	
 	public static boolean isPrime (int a) {
 		if (a % 2 == 0) {
