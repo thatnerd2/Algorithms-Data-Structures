@@ -58,12 +58,8 @@ public class LinePointDistance {
 	}
 	
 	public static int dotProd (int[] a, int[] b, int[] c) {
-		/**
-		 * Computes the dot product AB . BC
-		 */
 		int[] AB = {b[0] - a[0], a[1] - a[0]};
 		int[] BC = {c[0] - b[0], c[1] - b[1]};
 		return AB[0] * BC[0] + AB[1] * BC[1];
-		
 	}
 }

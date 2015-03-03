@@ -54,7 +54,7 @@ public class DijkstrasAlgo {
 		 */
 		
 		start.setDijkstraScore(0, null);
-		PriorityQueue<Node> q = new PriorityQueue<Node>(new Comparator<Node> () {
+		PriorityQueue<Node> q = new PriorityQueue<Node>(10, new Comparator<Node> () {
 			public int compare(Node o1, Node o2) {
 				return o1.dijkstraScore - o2.dijkstraScore;
 			}
