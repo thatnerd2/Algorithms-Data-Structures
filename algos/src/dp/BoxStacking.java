@@ -19,12 +19,14 @@ public class BoxStacking {
 		int[] states = new int[boxes.length * 3];
 		Box[] allBoxes = new Box[boxes.length * 3];
 		
+		/* Since boxes can be rotated, generate and store every single case */
 		for (int i = 0; i < boxes.length; i++) {
 			allBoxes[i*3] = boxes[i];
 			allBoxes[i*3 + 1] = new Box(boxes[i].height, boxes[i].depth, boxes[i].width);
 			allBoxes[i*3 + 2] = new Box(boxes[i].depth, boxes[i].width, boxes[i].height);
 		}
 		
+		/* Sort from smallest base to largest base */
 		Arrays.sort(allBoxes, new Comparator<Box>() {
 			public int compare (Box a, Box b) {
 				return a.width * a.depth - b.width * b.depth;

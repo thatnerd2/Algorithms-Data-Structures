@@ -31,10 +31,7 @@ public class BalancedPartition {
 		}
 		
 		Arrays.fill(subsetSums, false);
-		
 		subsetSums[0] = true;
-		
-		//It makes sense but how do you even come up with that?  yeesh
 		
 		for (int i = 0; i < array.length; i++) {
 			for (int j = sum - array.length; j >= 0; j--) {
@@ -76,7 +73,6 @@ public class BalancedPartition {
 		}
 		
 		//Abs value diff of sums, is answer.
-		
 		System.out.println("Min set 1: " + minSet);
 		System.out.println("Min set 2: " + complimentSet);
 		System.out.println("Min diff: " + Math.abs(sumOf(minSet) - sumOf(complimentSet)));

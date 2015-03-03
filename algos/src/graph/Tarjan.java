@@ -28,7 +28,7 @@ public class Tarjan {
 			}
 		}
 		
-		//Now we have graph.  Execute algorithm
+		//Now we have the graph.  Execute algorithm
 		int next = 0;
 		components = new ArrayList<ArrayList<Node>>();
 		Stack<Node> stack = new Stack<Node>();
