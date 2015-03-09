@@ -1,4 +1,4 @@
-package topcoder;
+package contests.topcoder;
 
 import java.util.ArrayList;
 import java.util.Arrays;
