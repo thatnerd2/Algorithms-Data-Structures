@@ -4,8 +4,8 @@ import java.util.ArrayList;
 import java.util.Scanner;
 
 public class Problem_6_Word_Search {
-	public static void main (String [] args) {
-		/*Scanner scan = new Scanner (System.in);
+	/*public static void main (String [] args) {
+		Scanner scan = new Scanner (System.in);
 		
 		int rows = scan.nextInt();
 		scan.nextLine();
@@ -19,7 +19,7 @@ public class Problem_6_Word_Search {
 		String[] find = new String[numFind];
 		for (int i = 0; i < numFind; i++) {
 			find[i] = scan.nextLine();
-		}*/
+		}
 		
 		String[] board = {"BOB","AAA", "BOB"};
 		String[] find = {"BOB", "BAB"};
@@ -120,5 +120,5 @@ public class Problem_6_Word_Search {
 			}
 			return null;
 		}
-	}
+	}*/
 }
