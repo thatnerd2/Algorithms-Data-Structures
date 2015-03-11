@@ -5,13 +5,20 @@ import java.util.Arrays;
 
 public class Problem7_Hopper {
 	public static void main (String [] args) {
-		int[] pos = {0, 3, 6};
-		int red = 8;
+		int[] pos = {0, 3, 6, 8};
 		
-		hoppers(pos, red);
+		hoppers(pos);
 	}
 	
-	public static void hoppers (int[] frogs, int red) {
+	public static void hoppers (int[] pos) {
+		int redPos = pos[pos.length - 1];
+		boolean[] frogs = new boolean[13];
+		
+		Arrays.fill(frogs, false);
+		for (int i = 0; i < pos.length; i++) {
+			frogs[pos[i]] = true;
+		}
+		
 		ArrayList<Lilypad> pads = new ArrayList<Lilypad>();
 		for (int i = 0; i < 13; i++) {
 			Lilypad l = new Lilypad(i);
@@ -25,26 +32,27 @@ public class Problem7_Hopper {
 		
 		for (int i = 0; i < connections.length; i++) {
 			String[] parts = connections[i].split(" ");
-			System.out.println(Arrays.toString(parts));
+			//System.out.println(Arrays.toString(parts));
 			Lilypad from = padById(Integer.parseInt(parts[0]), pads);
 			Lilypad over = padById(Integer.parseInt(parts[1]), pads);
 			Lilypad to = padById(Integer.parseInt(parts[2]), pads); 
 			
 			Conn c = new Conn (from, over, to);
-			System.out.println(from);
+			//System.out.println(from);
 			from.addConn(c);
 		}
 		
 		//NOW WE HAVE THE DATA!
-		setup(frogs, red, pads);
 		
-		ArrayList<String> res = solve(frogs, red, pads);
+		setup(frogs, redPos, pads);
 		
+		String res = solve(frogs, redPos, pads);
+		System.out.println(res);
 	}
 	
-	public static String solve (int[] state, int red, ArrayList<Lilypad> pads) {
+	public static String solve (boolean[] state, int redPos, ArrayList<Lilypad> pads) {
 		//Depth first search I guess
-		String status = getStatus(state);
+		String status = getStatus(state, redPos);
 		switch (status) {
 		case "INVALID":
 			return null;
@@ -55,33 +63,68 @@ public class Problem7_Hopper {
 		for (int i = 0; i < pads.size(); i++) {
 			Lilypad p = pads.get(i);
 			if (p.f != null) {
+				System.out.println(p);
 				Conn valid = p.getNextValid();
+				System.out.println(valid);
 				if (valid != null) {
-					int[] nextState = state.clone();
+					System.out.println("IONSIDE");
+					boolean[] nextState = state.clone();
+					int nextRed = redPos;
 					//Perform the jump
 					valid.to.putFrog(valid.from.f);
 					valid.from.deleteFrog();
 					valid.over.deleteFrog();
 					
+					nextState[valid.from.id] = false;
+					nextState[valid.to.id] = true;
+					nextState[valid.over.id] = false;
 					
+					if (valid.from.id == redPos) {
+						valid.to.f.isRed = true;
+						nextRed = valid.to.id;
+					}
+					
+					String res = solve(nextState, nextRed, pads);
+					System.out.println(res);
 					//Make the move and recurse.
-					
 				}
 			}
 		}
+		
+		return "FAILURE";
 	}
 	
-	public static void setup (int[] frogs, int red, ArrayList<Lilypad> pads) {
-		for (int i = 0; i < frogs.length; i++) {
-			Lilypad thisPad = padById(frogs[i], pads);
-			Frog f = new Frog();
-			thisPad.putFrog(f);
+	
+	public static void setup (boolean[] frogs, int redPos, ArrayList<Lilypad> pads) {
+		for (int i = 0; i < pads.size(); i++) pads.get(i).deleteFrog();
+		
+		for (int i = 0; i < frogs.length - 1; i++) {
+			if (frogs[i]) {
+				Lilypad thisPad = padById(i, pads);
+				Frog f = new Frog();
+				thisPad.putFrog(f);
+			}
+			
 		}
 		
-		Lilypad redPad = padById(red, pads);
-		Frog redFrog = new Frog();
-		redFrog.isRed = true;
-		redPad.putFrog(redFrog);
+		Lilypad redPad = padById(redPos, pads);
+		redPad.f.isRed = true;
+	}
+	
+	public static String getStatus (boolean[] state, int redPos) {
+		for (int i = 0; i < state.length - 1; i++)
+			if (!state[i])
+				return "NOT DONE";
+		return (state[redPos]) ? "DONE" : "INVALID";
+	}
+	
+	public static int frogIxByPos (int pos, int[] frogs) {
+		for (int i = 0; i < frogs.length; i++) {
+			if (frogs[i] == pos) {
+				return i;
+			}
+		}
+		return -1;
 	}
 	
 	public static Lilypad padById (int id, ArrayList<Lilypad> pads) {
@@ -90,6 +133,4 @@ public class Problem7_Hopper {
 				return p;
 		return null;
 	}
-	
-	
 }
