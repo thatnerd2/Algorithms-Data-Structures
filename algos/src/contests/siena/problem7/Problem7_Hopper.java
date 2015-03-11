@@ -5,8 +5,7 @@ import java.util.Arrays;
 
 public class Problem7_Hopper {
 	public static void main (String [] args) {
-		int[] pos = {3, 6}; //PUT IN ACTUAL INPUT CASE PLEASE
-		
+		int[] pos = {4, 9, 2};
 		hoppers(pos);
 	}
 	
@@ -52,15 +51,13 @@ public class Problem7_Hopper {
 	
 	public static String solve (boolean[] state, int redPos, ArrayList<Lilypad> pads) {
 		//Depth first search I guess
-		System.out.println("Attempting solve ----------------------");
+		System.out.println("Status: " + Arrays.toString(state));
 		String status = getStatus(state, redPos);
 		switch (status) {
 		case "INVALID":
-			System.out.println("INVALID");
 			return "INVALID";
 		case "DONE":
-			System.out.println("i got done");
-			return "";
+			return ""+redPos;
 		}
 		
 		for (int i = 0; i < pads.size(); i++) {
@@ -86,9 +83,12 @@ public class Problem7_Hopper {
 						valid.to.f.isRed = true;
 						nextRed = valid.to.id;
 					}
+					System.out.println("MOVE FROM " + valid.from.id + " TO " + valid.to.id);
+					String res = valid.from.id + " " + solve(nextState, nextRed, pads);
 					
-					String res = valid.from.id + " " + valid.to.id + " " + solve(nextState, nextRed, pads);
-					System.out.println("RES: " + res);
+					if (isValidSolution(res)) {
+						return res;
+					}
 					
 					//Reset
 					setup(state, redPos, pads);
@@ -100,6 +100,15 @@ public class Problem7_Hopper {
 		return "FAILURE";
 	}
 	
+	private static boolean isValidSolution (String s) {
+		String[] parts = s.split(" ");
+		for (int i = 0; i < parts.length; i++) {
+			if (parts[i].length() > 2) {
+				return false;
+			}
+		}
+		return true;
+	}
 	
 	public static void setup (boolean[] frogs, int redPos, ArrayList<Lilypad> pads) {
 		for (int i = 0; i < pads.size(); i++) pads.get(i).deleteFrog();
@@ -118,14 +127,11 @@ public class Problem7_Hopper {
 	}
 	
 	public static String getStatus (boolean[] state, int redPos) {
-		System.out.println("RED POS: " + redPos + " AND ARRAY: " + Arrays.toString(state));
 		for (int i = 0; i < state.length; i++) {
 			if (state[i] && i != redPos) {
-				System.out.println("Returned not done");
 				return "NOT DONE";
 			}
 		}
-		
 		return (state[redPos]) ? "DONE" : "INVALID";
 	}
 	
