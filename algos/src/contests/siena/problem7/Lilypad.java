@@ -23,7 +23,9 @@ public class Lilypad {
 	public Conn getNextValid () {
 		for (int i = 0; i < connections.size(); i++) {
 			Conn c = connections.get(i);
+			//System.out.println("My id : " + id + " Over (" + c.over.id + ") : " + c.over.f + " and to (" + c.to.id + "): " + c.to.f);
 			if (c.over.f != null && c.to.f == null) {
+				
 				return c;
 			}
 		}

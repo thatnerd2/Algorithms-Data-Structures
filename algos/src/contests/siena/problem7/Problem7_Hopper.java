@@ -5,7 +5,7 @@ import java.util.Arrays;
 
 public class Problem7_Hopper {
 	public static void main (String [] args) {
-		int[] pos = {0, 3, 6, 8};
+		int[] pos = {3, 6}; //PUT IN ACTUAL INPUT CASE PLEASE
 		
 		hoppers(pos);
 	}
@@ -52,22 +52,25 @@ public class Problem7_Hopper {
 	
 	public static String solve (boolean[] state, int redPos, ArrayList<Lilypad> pads) {
 		//Depth first search I guess
+		System.out.println("Attempting solve ----------------------");
 		String status = getStatus(state, redPos);
 		switch (status) {
 		case "INVALID":
-			return null;
+			System.out.println("INVALID");
+			return "INVALID";
 		case "DONE":
+			System.out.println("i got done");
 			return "";
 		}
 		
 		for (int i = 0; i < pads.size(); i++) {
 			Lilypad p = pads.get(i);
+			
 			if (p.f != null) {
-				System.out.println(p);
+				//System.out.println(p);
 				Conn valid = p.getNextValid();
-				System.out.println(valid);
+				//System.out.println(valid);
 				if (valid != null) {
-					System.out.println("IONSIDE");
 					boolean[] nextState = state.clone();
 					int nextRed = redPos;
 					//Perform the jump
@@ -84,9 +87,12 @@ public class Problem7_Hopper {
 						nextRed = valid.to.id;
 					}
 					
-					String res = solve(nextState, nextRed, pads);
-					System.out.println(res);
-					//Make the move and recurse.
+					String res = valid.from.id + " " + valid.to.id + " " + solve(nextState, nextRed, pads);
+					System.out.println("RES: " + res);
+					
+					//Reset
+					setup(state, redPos, pads);
+					
 				}
 			}
 		}
@@ -112,19 +118,15 @@ public class Problem7_Hopper {
 	}
 	
 	public static String getStatus (boolean[] state, int redPos) {
-		for (int i = 0; i < state.length - 1; i++)
-			if (!state[i])
+		System.out.println("RED POS: " + redPos + " AND ARRAY: " + Arrays.toString(state));
+		for (int i = 0; i < state.length; i++) {
+			if (state[i] && i != redPos) {
+				System.out.println("Returned not done");
 				return "NOT DONE";
-		return (state[redPos]) ? "DONE" : "INVALID";
-	}
-	
-	public static int frogIxByPos (int pos, int[] frogs) {
-		for (int i = 0; i < frogs.length; i++) {
-			if (frogs[i] == pos) {
-				return i;
 			}
 		}
-		return -1;
+		
+		return (state[redPos]) ? "DONE" : "INVALID";
 	}
 	
 	public static Lilypad padById (int id, ArrayList<Lilypad> pads) {

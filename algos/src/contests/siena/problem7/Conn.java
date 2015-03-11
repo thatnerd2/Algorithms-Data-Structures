@@ -5,7 +5,7 @@ public class Conn {
 	Lilypad to;
 	Lilypad over;
 	
-	public Conn (Lilypad f, Lilypad t, Lilypad o) {
+	public Conn (Lilypad f, Lilypad o, Lilypad t) {
 		from = f;
 		to = t;
 		over = o;
