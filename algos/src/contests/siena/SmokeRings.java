@@ -10,7 +10,6 @@ public class SmokeRings {
 		int c = 2;
 		char ans = getChar(n, r, c);
 		System.out.println(ans);
-		
 	}
 	
 	public static char getChar (int n, int ansR, int ansC){
