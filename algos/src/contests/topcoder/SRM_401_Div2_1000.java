@@ -23,8 +23,8 @@ import java.util.Arrays;
 
 public class SRM_401_Div2_1000 {
 	public static void main (String [] args) {
-		String[] in = {"3 abc 1 ab"};
-		String[] in2 = {"1 b ", "1 a ", "1 b ", "1 a", " 1 b"};
+		//String[] in = {"3 abc 1 ab"};
+		//String[] in2 = {"1 b ", "1 a ", "1 b ", "1 a", " 1 b"};
 		String[] in3 = {"42 runningletters 42 runningletters 1 running"};
 		
 		int len = newsLength(in3);

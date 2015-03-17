@@ -1,7 +1,5 @@
 package contests.siena;
 
-import java.util.ArrayList;
-import java.util.Scanner;
 
 public class Problem_6_Word_Search {
 	/*public static void main (String [] args) {
