@@ -15,14 +15,18 @@ public class DijkstrasAlgo {
 		}
 		
 		HashMap<String, String> connections = new HashMap<String, String>();
-		connections.put("A", "B.4 C.1");
+		/*connections.put("A", "B.4 C.1");
 		connections.put("B", "C.1 A.4 F.3 E.21");
 		connections.put("C", "A.1 D.99 B.1");
 		connections.put("D", "B.99 H.1");
 		connections.put("E", "G.11 H.10 B.21");
 		connections.put("F", "B.3 G.7");
 		connections.put("G", "F.7 E.11");
-		connections.put("H", "D.1 E.10");
+		connections.put("H", "D.1 E.10");*/
+		connections.put("A", "B.51 C.50");
+		connections.put("B", "C.2 D.99");
+		connections.put("C", "D.3");
+	
 		for (String name : connections.keySet()) {
 			String connection = connections.get(name);
 			String[] edges = connection.split(" ");
@@ -43,7 +47,7 @@ public class DijkstrasAlgo {
 		/* Start at A, get to D.*/
 		ArrayList<Node> shortestPath = getShortestPath(start, dest);
 		System.out.println("Shortest path from a to d is: " + shortestPath);
-		System.out.println("Shortest distance is: " + shortestPath.get(shortestPath.size() - 1).dijkstraScore);
+		System.out.println("Shortest distance is: " + shortestPath.get(shortestPath.size() - 1).score);
 	}
 	
 	public static ArrayList<Node> getShortestPath (Node start, Node dest) {
@@ -53,25 +57,26 @@ public class DijkstrasAlgo {
 		 * Add dijkstra score and Priority Queue (heap) to BFS to make it Dijkstra's algo 
 		 */
 		
-		start.setDijkstraScore(0, null);
+		start.initScore();
 		PriorityQueue<Node> q = new PriorityQueue<Node>(10, new Comparator<Node> () {
 			public int compare(Node o1, Node o2) {
-				return o1.dijkstraScore - o2.dijkstraScore;
+				return o1.score - o2.score;
 			}
 		});
+		
 		HashSet<Node> explored = new HashSet<Node>();
 		q.add(start);
 		while (!q.isEmpty()) {
 			Node n = q.poll();
+			
 			if (n.equals(dest)) {
-				/* WE GOT THERE - TRACE BACK THE PATH */
 				Node prevNode = n;
 				ArrayList<Node> path = new ArrayList<Node>();
 				while (prevNode != null) {
 					path.add(prevNode);
-					prevNode = prevNode.previousNode;
+					prevNode = prevNode.bestPrevious;
 				}
-				
+				System.out.println("true shortest path: " + n.score);
 				Collections.reverse(path);
 				return path;
 				
@@ -80,9 +85,15 @@ public class DijkstrasAlgo {
 			for (int i = 0; i < n.neighbors.size(); i++) {
 				Node neighbor = n.neighbors.get(i);
 				if (!explored.contains(neighbor)) {
-					int neighborCost = n.costs.get(i);
-					neighbor.setDijkstraScore(neighborCost + n.dijkstraScore, n);
-					q.add(neighbor);
+					int costToNeighbor = n.costs.get(i);
+					
+					if (costToNeighbor + n.score < neighbor.score) {
+						
+						System.out.println(n + "->" + neighbor + " because " + (costToNeighbor + n.score) + " < " + neighbor.score + " of " + neighbor);
+						neighbor.setScore(costToNeighbor + n.score, n);
+						
+						q.add(neighbor);
+					}
 				}
 			}
 			
@@ -105,13 +116,14 @@ public class DijkstrasAlgo {
 		String name;
 		ArrayList<Integer> costs;
 		ArrayList<Node> neighbors;
-		int dijkstraScore;
-		Node previousNode;
+		int score;
+		Node bestPrevious;
 		
 		public Node (String n) {
 			name = n;
 			neighbors = new ArrayList<Node>();
 			costs = new ArrayList<Integer>();
+			score = Integer.MAX_VALUE;
 		}
 		
 		public void addNeighbor (Node n, int cost) {
@@ -119,14 +131,18 @@ public class DijkstrasAlgo {
 			costs.add(cost);
 		}
 		
-		public void setNeighbors (ArrayList<Node> n, ArrayList<Integer> c) {
-			neighbors = n;
-			costs = c;
+		public void initScore () {
+			score = 0;
 		}
 		
-		public void setDijkstraScore (int n, Node prevNode) {
-			dijkstraScore = n;
-			previousNode = prevNode;
+		public void setScore (int score, Node prev) {
+			System.out.println("Assigning score of " + score + " to node " + name + " with prev " + name);
+			this.score = score;
+			bestPrevious = prev;
+		}
+		
+		public int getScore () {
+			return score;
 		}
 		
 		public String toString () {
