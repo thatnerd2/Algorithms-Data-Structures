@@ -1,0 +1,7 @@
+Problem def link: http://www.spoj.com/BYUP2/problems/CCHESS/
+
+Gist:
+	- Knight movements on a chess board
+	- Movement from tile a,b to c,d costs a*c + b*d
+	- Trying to get from start pos to end pos in least cost
+	- DP problem
